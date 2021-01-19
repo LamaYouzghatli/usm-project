@@ -14,6 +14,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('${post.title}');
     return Container(
       width: Get.width * 0.70,
       height: Get.height * 0.3,

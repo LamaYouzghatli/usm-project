@@ -68,7 +68,7 @@ class Community_Page_State extends State<Community_Page> {
                   ),
                 ),
                 Tiles(
-                  selected: 4,
+                  selected: 2,
                 ),
               ],
             ),

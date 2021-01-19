@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:usm_mobile/Controllers/PostController.dart';
 import 'package:usm_mobile/Models/PostModel.dart';
 import 'package:usm_mobile/View/components/PostCard.dart';
 import 'package:usm_mobile/View/components/PostCardDivider.dart';
 
 class PostCardsListView extends StatefulWidget {
-  final List<Post> postsList;
-  PostCardsListView({Key key, this.postsList}) : super(key: key);
+  PostCardsListView({Key key}) : super(key: key);
 
   @override
   _PostCardsListViewState createState() => _PostCardsListViewState();
 }
 
 class _PostCardsListViewState extends State<PostCardsListView> {
+  PostController postController;
+  @override
+  void initState() {
+    super.initState();
+    Get.put(PostController());
+    postController = Get.find<PostController>();
+    postController.getPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -31,21 +40,24 @@ class _PostCardsListViewState extends State<PostCardsListView> {
             ],
           ),
           height: Get.height * 0.3,
-          child: ListView.separated(
-            itemCount: this.widget.postsList.length,
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  PostCard(
-                    post: this.widget.postsList[index],
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) {
-              return PostCardDivider();
-            },
-            scrollDirection: Axis.horizontal,
+          child: GetBuilder<PostController>(
+            init: PostController(),
+            builder: (_) => ListView.separated(
+              itemCount: postController.postsList.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    PostCard(
+                      post: postController.postsList[index],
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return PostCardDivider();
+              },
+              scrollDirection: Axis.horizontal,
+            ),
           ),
         ),
         Positioned(
